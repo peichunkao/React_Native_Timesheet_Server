@@ -15,22 +15,22 @@ router.get("/timesheets", async (req, res) => {
 });
 
 router.put("/timesheets/:_id", async (req, res) => {
-  const { title, notes, startTime, endTime, attachments } = req.body;
+  const { startTime, endTime, task, notes, images } = req.body;
   // const _id = req.params._id;
   var query = { _id: req.params._id };
 
-  if (!title || !startTime || !endTime) {
+  if (!task || !startTime || !endTime) {
     return res
       .status(422)
-      .send({ error: "You must provide a title, startTime and endTime" });
+      .send({ error: "You must provide a task, startTime and endTime" });
   }
 
   const timesheet = {
-    title,
-    notes,
     startTime,
     endTime,
-    attachments
+    task,
+    notes,
+    images
   };
   Timesheet.updateOne(query, timesheet, function(err) {
     if (err) {
@@ -43,9 +43,9 @@ router.put("/timesheets/:_id", async (req, res) => {
 });
 
 router.post("/timesheets", async (req, res) => {
-  const { title, notes, startTime, endTime, attachments } = req.body;
+  const { startTime, endTime, task, notes, images } = req.body;
 
-  if (!title || !startTime || !endTime) {
+  if (!task || !startTime || !endTime) {
     return res
       .status(422)
       .send({ error: "You must provide a title, startTime and endTime" });
@@ -53,11 +53,11 @@ router.post("/timesheets", async (req, res) => {
 
   try {
     const timesheet = new Timesheet({
-      title,
-      notes,
       startTime,
       endTime,
-      attachments,
+      task,
+      notes,
+      images,
       userId: req.user._id
     });
     await timesheet.save();
