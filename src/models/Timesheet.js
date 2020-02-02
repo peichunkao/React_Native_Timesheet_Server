@@ -5,15 +5,6 @@ const timesheetSchema = new mongoose.Schema({
     type: mongoose.Schema.Types.ObjectId,
     ref: "User"
   },
-  title: {
-    type: String,
-    unique: true,
-    required: true
-  },
-  notes: {
-    type: String,
-    required: false
-  },
   startTime: {
     type: String,
     required: true
@@ -22,7 +13,16 @@ const timesheetSchema = new mongoose.Schema({
     type: String,
     required: true
   },
-  attachments: { type: Array, default: [], required: false }
+  task: {
+    type: String,
+    unique: true,
+    required: true
+  },
+  notes: {
+    type: String,
+    required: false
+  },
+  images: { type: Array, default: [], required: false }
 });
 
 mongoose.model("Timesheet", timesheetSchema);

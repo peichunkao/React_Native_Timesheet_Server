@@ -32,7 +32,7 @@ router.put("/timesheets/:_id", async (req, res) => {
     endTime,
     attachments
   };
-  Timesheet.update(query, timesheet, function(err) {
+  Timesheet.updateOne(query, timesheet, function(err) {
     if (err) {
       res.status(422).send({ error: err.message });
     } else {
