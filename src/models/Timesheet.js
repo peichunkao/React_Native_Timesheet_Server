@@ -22,7 +22,15 @@ const timesheetSchema = new mongoose.Schema({
     type: String,
     required: false
   },
-  images: { type: Array, default: [], required: false }
+  images: { type: Array, default: [], required: false },
+  statue: {
+    type: String,
+    required: false
+  }, 
+  isTimeOff: {
+    type: Boolean,
+    required: false
+  }
 });
 
 mongoose.model("Timesheet", timesheetSchema);
