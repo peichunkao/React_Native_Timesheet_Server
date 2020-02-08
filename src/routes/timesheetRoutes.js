@@ -9,8 +9,12 @@ const router = express.Router();
 router.use(requireAuth);
 
 router.get("/timesheets", async (req, res) => {
-  const timesheets = await Timesheet.find({ userId: req.user._id });
-  // console.log("get");
+  let timesheets = {}
+  if (req.user.role === 'Employee') {
+    timesheets = await Timesheet.find({ userId: req.user._id });
+  } else {
+    timesheets = await Timesheet.find();
+  }
   res.send(timesheets);
 });
 
@@ -43,7 +47,7 @@ router.put("/timesheets/:_id", async (req, res) => {
 });
 
 router.post("/timesheets", async (req, res) => {
-  const { startTime, endTime, task, notes, images } = req.body;
+  const { startTime, endTime, task, notes, images, isTimeOff } = req.body;
 
   if (!task || !startTime || !endTime) {
     return res
@@ -58,6 +62,7 @@ router.post("/timesheets", async (req, res) => {
       task,
       notes,
       images,
+      isTimeOff,
       userId: req.user._id
     });
     await timesheet.save();

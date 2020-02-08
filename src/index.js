@@ -1,13 +1,16 @@
 require('./models/User');
 require('./models/Track');
 require('./models/Timesheet');
+require('./models/Task');
 const express = require('express');
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 const authRoutes = require('./routes/authRoutes');
 const trackRoutes = require('./routes/trackRoutes');
 const timesheetRoutes = require('./routes/timesheetRoutes');
+const taskRoutes = require('./routes/taskRoutes');
 const requireAuth = require('./middlewares/requireAuth');
+
 
 const app = express();
 
@@ -15,6 +18,7 @@ app.use(bodyParser.json());
 app.use(authRoutes);
 app.use(trackRoutes);
 app.use(timesheetRoutes);
+app.use(taskRoutes);
 //TVkjUO83XB09YbwV
 
 const mongoUri = 'mongodb+srv://admin:TVkjUO83XB09YbwV@cluster0-y2nxr.mongodb.net/test?retryWrites=true&w=majority';

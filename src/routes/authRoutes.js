@@ -5,13 +5,20 @@ const User = mongoose.model('User');
 
 const router = express.Router();
 
+router.get('/users/:email', async (req, res) => {
+  const _email = req.params.email; 
+  let user = await User.find({ email: _email });
+  // const userId = req.user._id
+  // user = { ...user, userId }
+  res.send(user);
+});
+
 router.post('/signup', async (req, res) => {
-  const { email, password } = req.body;
+  const { email, password, firstName, lastName, role } = req.body;
 
   try {
-    const user = new User({ email, password });
+    const user = new User({ email, password, firstName, lastName, role });
     await user.save();
-
     const token = jwt.sign({ userId: user._id }, 'MY_SECRET_KEY');
     res.send({ token });
   } catch (err) {
@@ -34,10 +41,14 @@ router.post('/signin', async (req, res) => {
   try {
     await user.comparePassword(password);
     const token = jwt.sign({ userId: user._id }, 'MY_SECRET_KEY');
-    res.send({ token });
+    // const user = User.find({ email: email });
+    res.send({ token, user });
+
   } catch (err) {
     return res.status(422).send({ error: 'Invalid password or email' });
   }
 });
+
+
 
 module.exports = router;
