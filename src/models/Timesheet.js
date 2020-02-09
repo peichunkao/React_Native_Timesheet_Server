@@ -15,7 +15,7 @@ const timesheetSchema = new mongoose.Schema({
   },
   task: {
     type: String,
-    unique: true,
+    unique: false,
     required: true
   },
   notes: {

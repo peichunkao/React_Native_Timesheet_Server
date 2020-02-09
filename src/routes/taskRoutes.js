@@ -13,19 +13,41 @@ router.get("/tasks", async (req, res) => {
 });
 
 router.post("/tasks", async (req, res) => {
-  const { task } = req.body;
-  if (!task) {
+  const { name } = req.body;
+  if (!name) {
     return res
       .status(422)
       .send({ error: "You must provide a task." });
   }
   try {
-    const taskItem = new Task({ task });
-    await taskItem.save();
-    res.send(taskItem);
+    const task = new Task({ name });
+    await task.save();
+    res.send(task);
   } catch (err) {
     res.status(422).send({ error: err.message });
   }
+});
+
+router.put("/tasks/:_id", async (req, res) => {
+  const { name } = req.body;
+  // const _id = req.params._id;
+  var query = { _id: req.params._id };
+
+  if (!name) {
+    return res
+      .status(422)
+      .send({ error: "You must provide a task, startTime and endTime" });
+  }
+
+  const newName = { name };
+
+  Task.updateOne(query, newName, function(err) {
+    if (err) {
+      res.status(422).send({ error: err.message });
+    } else {
+      res.status(201).json({ success: "true" });
+    }
+  });
 });
 
 router.delete("/tasks/:_id", async (req, res) => {
