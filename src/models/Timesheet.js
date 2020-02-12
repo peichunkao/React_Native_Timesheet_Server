@@ -23,6 +23,10 @@ const timesheetSchema = new mongoose.Schema({
     required: false
   },
   images: { type: Array, default: [], required: false },
+  status: {
+    type: String,
+    required: true
+  },
   isTimeOff: {
     type: Boolean,
     required: false

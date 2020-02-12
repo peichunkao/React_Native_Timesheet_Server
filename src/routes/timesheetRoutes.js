@@ -19,7 +19,7 @@ router.get("/timesheets", async (req, res) => {
 });
 
 router.put("/timesheets/:_id", async (req, res) => {
-  const { startTime, endTime, task, notes, images } = req.body;
+  const { startTime, endTime, task, notes, images, status } = req.body;
   // const _id = req.params._id;
   var query = { _id: req.params._id };
 
@@ -34,7 +34,8 @@ router.put("/timesheets/:_id", async (req, res) => {
     endTime,
     task,
     notes,
-    images
+    images,
+    status
   };
   Timesheet.updateOne(query, timesheet, function(err) {
     if (err) {
@@ -47,7 +48,7 @@ router.put("/timesheets/:_id", async (req, res) => {
 });
 
 router.post("/timesheets", async (req, res) => {
-  const { startTime, endTime, task, notes, images, isTimeOff } = req.body;
+  const { startTime, endTime, task, notes, images, isTimeOff, status } = req.body;
 
   if (!task || !startTime || !endTime) {
     return res
@@ -62,6 +63,7 @@ router.post("/timesheets", async (req, res) => {
       task,
       notes,
       images,
+      status,
       isTimeOff,
       userId: req.user._id
     });

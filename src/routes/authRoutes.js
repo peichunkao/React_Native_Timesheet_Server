@@ -10,7 +10,6 @@ router.get('/users/:email', async (req, res) => {
   let user = await User.find({ email: _email });
   // const userId = req.user._id
   // user = { ...user, userId }
-  console.log("getUser:email")
   res.send(user);
 });
 
